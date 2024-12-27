@@ -71,3 +71,28 @@ def draw_filled_circle(center_x, center_y, radius):
             if (x - center_x) ** 2 + (y - center_y) ** 2 <= radius ** 2:
                 glVertex2f(x, y)
     glEnd()
+
+
+def draw_timer(x, y, ELAPSED_TIME, color=(0, 0, 0)):
+    global PAUSED, LOOP
+    if PAUSED:
+        text_color = (1, 0, 0)  # Red when PAUSED
+    else:
+        text_color = (0, 0, 0)  # black when running
+
+    glColor3fv(text_color)
+    glRasterPos2f(x-5, y - 10)
+    TEXT = f"Timer: {ELAPSED_TIME:.2f}s"
+
+    for char in TEXT:
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, ord(char))  # Changed font style and increased size
+
+def text_show(flag):
+    glColor3f(1,0,0)
+    glRasterPos2f(350, 500)
+    if flag==1:
+        TEXT="WINNER!!!"
+    elif flag==2:
+        TEXT="GAME OVER!!!"
+    for char in TEXT:
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, ord(char))
