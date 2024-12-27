@@ -106,26 +106,25 @@ def update_timer(value):
 
 
 def keyboard(key, x, y):
-    global TEXT,START_TIME, PAUSED,LOOP,PLAYER_X,PLAYER_Y, RADIUS, TREASURE_X1,TREASURE_Y1,TREASURE_X2,TREASURE_Y2,COUNT
+    global TEXT,START_TIME, PAUSED, PAUSED_TIME,LOOP,PLAYER_X,PLAYER_Y, RADIUS, TREASURE_X1,TREASURE_Y1,TREASURE_X2,TREASURE_Y2,COUNT
 
     if key == b' ' and LOOP==True:
-        if not PAUSED:
+        if PAUSED == False:
             PAUSED = True
         else:
-            START_TIME = time.time() - PAUSED_TIME
+            PAUSED_TIME = time.time() - START_TIME - ELAPSED_TIME
             PAUSED = False
     elif key== b'R' or b'r':
             print("Play again")
             TEXT=0
             PAUSED = False 
-            loop=True
+            LOOP=True
             START_TIME=time.time() 
             PLAYER_X=627 
             PLAYER_Y=277
             RADIUS = 22 
             TREASURE_X1,TREASURE_Y1,TREASURE_X2,TREASURE_Y2=510,310,550,350
             COUNT=0
-            update_timer('v')
             display()
             glutPostRedisplay()
 
