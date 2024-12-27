@@ -90,70 +90,57 @@ def display():
 
 
 
-
-def update_timer(value):
-    global LOOP,START_TIME, ELAPSED_TIME, PAUSED, PAUSED_TIME
-    if START_TIME is not None and LOOP==True:
-        if PAUSED==False:
+def update_timer(value): 
+    global LOOP, START_TIME, ELAPSED_TIME, PAUSED, PAUSED_TIME
+    if START_TIME is not None and LOOP:
+        if not PAUSED:
             ELAPSED_TIME = time.time() - START_TIME - PAUSED_TIME
-            
-        elif PAUSED==True:
-            PAUSED_TIME = time.time() - START_TIME - ELAPSED_TIME
-            print("PAUSED_TIME paused time : ", PAUSED_TIME)
-        
-    glutPostRedisplay()
-    glutTimerFunc(100, update_timer, 0)
+        else:
+            print("Timer paused. ELAPSED_TIME:", ELAPSED_TIME)
 
+    glutPostRedisplay()
+    glutTimerFunc(100, update_timer, 0) 
+
+
+def reset_game():
+    global TEXT, START_TIME, PAUSED, LOOP, PLAYER_X, PLAYER_Y, RADIUS
+    global TREASURE_X1, TREASURE_Y1, TREASURE_X2, TREASURE_Y2, COUNT, PAUSED_TIME
+    print("Game reset")
+    TEXT = 0
+    PAUSED = False
+    PAUSED_TIME = 0
+    LOOP = True
+    START_TIME = time.time()
+    PLAYER_X, PLAYER_Y = 627, 277
+    RADIUS = 22
+    TREASURE_X1, TREASURE_Y1, TREASURE_X2, TREASURE_Y2 = 510, 310, 550, 350
+    COUNT = 0
+    update_timer(0)
+    display()
+    glutPostRedisplay()
 
 def keyboard(key, x, y):
-    global TEXT,START_TIME, PAUSED, PAUSED_TIME,LOOP,PLAYER_X,PLAYER_Y, RADIUS, TREASURE_X1,TREASURE_Y1,TREASURE_X2,TREASURE_Y2,COUNT
-
-    if key == b' ' and LOOP==True:
-        if PAUSED == False:
+    global START_TIME, PAUSED, PAUSED_TIME
+    if key == b' ' and LOOP:
+        if not PAUSED:
             PAUSED = True
+            PAUSED_TIME += time.time() - START_TIME - ELAPSED_TIME
         else:
-            PAUSED_TIME = time.time() - START_TIME - ELAPSED_TIME
+            START_TIME = time.time() - ELAPSED_TIME - PAUSED_TIME
             PAUSED = False
-    elif key== b'R' or b'r':
-            print("Play again")
-            TEXT=0
-            PAUSED = False 
-            LOOP=True
-            START_TIME=time.time() 
-            PLAYER_X=627 
-            PLAYER_Y=277
-            RADIUS = 22 
-            TREASURE_X1,TREASURE_Y1,TREASURE_X2,TREASURE_Y2=510,310,550,350
-            COUNT=0
-            display()
-            glutPostRedisplay()
+    elif key in [b'R', b'r']:
+        reset_game()
+
 
 def mouseListener(button, state, x, y):
-    global PAUSED_TIME, TEXT, COUNT, LOOP, PAUSED, START_TIME, PLAYER_X, PLAYER_Y, RADIUS, TREASURE_X1,TREASURE_Y1,TREASURE_X2,TREASURE_Y2
     if button == GLUT_LEFT_BUTTON and state == GLUT_DOWN:
-        if (20< x < 72 and 47 < y < 71):
-            print("Play again")
-            TEXT=0
-            PAUSED = False 
-            LOOP=True
-            START_TIME=time.time() 
-            PAUSED_TIME=0
-            PLAYER_X=627 
-            PLAYER_Y=277
-            RADIUS = 22 
-            TREASURE_X1,TREASURE_Y1,TREASURE_X2,TREASURE_Y2=510,310,550,350
-            COUNT=0
-            update_timer('v')
-            display()
-            glutPostRedisplay()
-        elif 438 < x < 461 and 29 < y < 72 and LOOP==True:
-            PAUSED = not PAUSED  
-            if PAUSED:
-                print("Pause")
-            else:
-                print("Resume")
-                
-        elif 831 < x < 872 and 33 < y < 70:
+        if 20 < x < 72 and 47 < y < 71:  # Play again button
+            reset_game()
+        elif 438 < x < 461 and 29 < y < 72 and LOOP:  # Pause/Resume button
+            global PAUSED
+            PAUSED = not PAUSED
+            print("Pause" if PAUSED else "Resume")
+        elif 831 < x < 872 and 33 < y < 70:  # Exit button
             print("Goodbye")
             glutLeaveMainLoop()
 
