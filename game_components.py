@@ -54,3 +54,20 @@ def draw_base(i, j):
     x1, y1 = 405 + (i * 50), 55 + (j * 50)
     x2, y2 = 445 + (i * 50), 60 + (j * 50)
     draw_filled_rect_with_points(x1, y1, x2, y2, color=side_color)
+
+def goal():
+    draw_filled_rect_with_points(510, 210, 550, 250, color=(1, 1, 0))  # Yellow box
+    draw_filled_circle(187, 202, 18)  # blue circle in goal
+
+def draw_filled_box(x1, y1, x2, y2, color=(0, 1, 0)):
+    draw_filled_rect_with_points(x1, y1, x2, y2, color=color)
+
+def draw_filled_circle(center_x, center_y, radius):
+    color = (0, 0, 1)
+    glColor3fv(color)
+    glBegin(GL_POINTS)
+    for x in range(center_x - radius, center_x + radius + 1):
+        for y in range(center_y - radius, center_y + radius + 1):
+            if (x - center_x) ** 2 + (y - center_y) ** 2 <= radius ** 2:
+                glVertex2f(x, y)
+    glEnd()
