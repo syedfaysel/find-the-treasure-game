@@ -88,3 +88,19 @@ def display():
         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, ord(char))
     glutSwapBuffers()
 
+
+
+
+def update_timer(value):
+    global LOOP,START_TIME, ELAPSED_TIME, PAUSED, PAUSED_TIME
+    if START_TIME is not None and LOOP==True:
+        if PAUSED==False:
+            ELAPSED_TIME = time.time() - START_TIME - PAUSED_TIME
+            
+        elif PAUSED==True:
+            PAUSED_TIME = time.time() - START_TIME - ELAPSED_TIME
+            print("PAUSED_TIME paused time : ", PAUSED_TIME)
+        
+    glutPostRedisplay()
+    glutTimerFunc(100, update_timer, 0)
+
