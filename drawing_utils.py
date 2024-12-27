@@ -77,3 +77,40 @@ def draw_line(x1, y1, x2, y2, color):
        x0, y0 = to_zoneM(zone, x, y)
       
        draw_points(x0, y0, color)
+
+
+def convert_zone(x, y, zone):
+    if zone == 0:
+        return x, y
+    if zone == 1:
+        return y, x
+    if zone == 2:
+        return -y, x
+    if zone == 3:
+        return -x, y
+    if zone == 4:
+        return -x, -y
+    if zone == 5:
+        return -y, -x
+    if zone == 6:
+        return y, -x
+    if zone == 7:
+        return x, -y
+
+def midPointCircleAlgorithm(radius, center_x, center_y, color):
+    d = 1 - radius
+    x = 0
+    y = radius
+
+    while x < y:
+        for i in range(8):
+            x_, y_ = convert_zone(x, y, i)
+            draw_points(x_ + center_x, y_ + center_y, color, 4)
+
+        if d < 0:
+            d += 2 * x + 3
+            x += 1
+        else:
+            d += 2 * x - 2 * y + 5
+            x += 1
+            y -= 1
