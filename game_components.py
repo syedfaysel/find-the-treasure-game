@@ -54,3 +54,45 @@ def draw_base(i, j):
     x1, y1 = 405 + (i * 50), 55 + (j * 50)
     x2, y2 = 445 + (i * 50), 60 + (j * 50)
     draw_filled_rect_with_points(x1, y1, x2, y2, color=side_color)
+
+def goal():
+    draw_filled_rect_with_points(510, 210, 550, 250, color=(1, 1, 0))  # Yellow box
+    draw_filled_circle(187, 202, 18)  # blue circle in goal
+
+def draw_filled_box(x1, y1, x2, y2, color=(0, 1, 0)):
+    draw_filled_rect_with_points(x1, y1, x2, y2, color=color)
+
+def draw_filled_circle(center_x, center_y, radius):
+    color = (0, 0, 1)
+    glColor3fv(color)
+    glBegin(GL_POINTS)
+    for x in range(center_x - radius, center_x + radius + 1):
+        for y in range(center_y - radius, center_y + radius + 1):
+            if (x - center_x) ** 2 + (y - center_y) ** 2 <= radius ** 2:
+                glVertex2f(x, y)
+    glEnd()
+
+
+def draw_timer(x, y, ELAPSED_TIME, color=(0, 0, 0)):
+    global PAUSED, LOOP
+    if PAUSED:
+        text_color = (1, 0, 0)  # Red when PAUSED
+    else:
+        text_color = (0, 0, 0)  # black when running
+
+    glColor3fv(text_color)
+    glRasterPos2f(x-5, y - 10)
+    TEXT = f"Timer: {ELAPSED_TIME:.2f}s"
+
+    for char in TEXT:
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, ord(char))  # Changed font style and increased size
+
+def text_show(flag):
+    glColor3f(1,0,0)
+    glRasterPos2f(350, 500)
+    if flag==1:
+        TEXT="WINNER!!!"
+    elif flag==2:
+        TEXT="GAME OVER!!!"
+    for char in TEXT:
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, ord(char))
