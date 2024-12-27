@@ -114,3 +114,25 @@ def midPointCircleAlgorithm(radius, center_x, center_y, color):
             d += 2 * x - 2 * y + 5
             x += 1
             y -= 1
+
+
+
+# ui
+def draw_retry_button(x, y, color = (0.0, 0.0, 1.0)):
+   draw_line(x, y, x + 20, y - 20, color)
+   draw_line(x, y, x + 20, y + 20, color)
+   draw_line(x, y, x + 50, y, color)
+
+def draw_pause_button(x, y, color = (1.0, 0.0, 1.0)):
+   draw_line(x + 10, y + 20, x + 10, y - 20, color)
+   draw_line(x - 10, y + 20, x - 10, y - 20, color)
+
+def draw_play_button(x, y, color = (1.0, 0.0, 1.0)):
+   draw_line(x - 10, y + 20, x - 10, y - 20, color)
+   draw_line(x - 10, y + 20, x + 10, y, color)
+   draw_line(x - 10, y - 20, x + 10, y, color)
+
+def draw_exit(x, y, color = (1.0, 0.0, 0.0)):
+   draw_line(x - 20, y + 20, x + 20, y - 20, color)
+   draw_line(x - 20, y - 20, x + 20, y + 20, color)
+
