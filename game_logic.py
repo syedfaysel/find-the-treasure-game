@@ -104,3 +104,57 @@ def update_timer(value):
     glutPostRedisplay()
     glutTimerFunc(100, update_timer, 0)
 
+
+def keyboard(key, x, y):
+    global TEXT,START_TIME, PAUSED,LOOP,PLAYER_X,PLAYER_Y, RADIUS, TREASURE_X1,TREASURE_Y1,TREASURE_X2,TREASURE_Y2,COUNT
+
+    if key == b' ' and LOOP==True:
+        if not PAUSED:
+            PAUSED = True
+        else:
+            START_TIME = time.time() - PAUSED_TIME
+            PAUSED = False
+    elif key== b'R' or b'r':
+            print("Play again")
+            TEXT=0
+            PAUSED = False 
+            loop=True
+            START_TIME=time.time() 
+            PLAYER_X=627 
+            PLAYER_Y=277
+            RADIUS = 22 
+            TREASURE_X1,TREASURE_Y1,TREASURE_X2,TREASURE_Y2=510,310,550,350
+            COUNT=0
+            update_timer('v')
+            display()
+            glutPostRedisplay()
+
+def mouseListener(button, state, x, y):
+    global PAUSED_TIME, TEXT, COUNT, LOOP, PAUSED, START_TIME, PLAYER_X, PLAYER_Y, RADIUS, TREASURE_X1,TREASURE_Y1,TREASURE_X2,TREASURE_Y2
+    if button == GLUT_LEFT_BUTTON and state == GLUT_DOWN:
+        if (20< x < 72 and 47 < y < 71):
+            print("Play again")
+            TEXT=0
+            PAUSED = False 
+            LOOP=True
+            START_TIME=time.time() 
+            PAUSED_TIME=0
+            PLAYER_X=627 
+            PLAYER_Y=277
+            RADIUS = 22 
+            TREASURE_X1,TREASURE_Y1,TREASURE_X2,TREASURE_Y2=510,310,550,350
+            COUNT=0
+            update_timer('v')
+            display()
+            glutPostRedisplay()
+        elif 438 < x < 461 and 29 < y < 72 and LOOP==True:
+            PAUSED = not PAUSED  
+            if PAUSED:
+                print("Pause")
+            else:
+                print("Resume")
+                
+        elif 831 < x < 872 and 33 < y < 70:
+            print("Goodbye")
+            glutLeaveMainLoop()
+  
